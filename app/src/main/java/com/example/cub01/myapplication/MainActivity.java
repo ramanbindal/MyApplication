@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         source = new DataSource();
 
-        findViewById(R.id.activity_main_btn)
+        findViewById(R.id.activity_main_btn_async_even)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -70,6 +71,51 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
+        findViewById(R.id.activity_main_btn_async_odd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Observable<Integer> list=source.getData();
+                    list.subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .filter(new Predicate<Integer>() {
+                                @Override
+                                public boolean test(@NonNull Integer integer) throws Exception {
+                                    return integer % 2 != 0;
+                                }
+                            })
+                            .map(new Function<Integer, String>() {
+                                @Override
+                                public String apply(@NonNull Integer integer) throws Exception {
+                                    return "Hello " + integer;
+                                }
+                            })
+                            .subscribe(new Observer<String>() {
+                                @Override
+                                public void onSubscribe(@NonNull Disposable d) {
+                                    Log.e("testing", ""+d.toString());
+
+                                }
+
+                                @Override
+                                public void onNext(@NonNull String s) {
+                                    Log.e("testing", "" + s);
+                                }
+
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+                                    Log.e("testing", "onError");
+
+                                }
+
+                                @Override
+                                public void onComplete() {
+                                    Log.e("testing", "onComplete");
+                                }
+                            });
+            }
+        });
+
         findViewById(R.id.activity_main_btn2)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -82,5 +128,69 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+
+        findViewById(R.id.activity_main_btn_async_string).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Observable<String> strings=source.getStrings();
+                strings.subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<String>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+                                Log.d("testing",""+d.toString());
+
+                            }
+
+                            @Override
+                            public void onNext(@NonNull String s) {
+                                Toast.makeText(MainActivity.this, ""+s, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                Log.d("testing","onError");
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.d("testing","onComplete");
+                            }
+                        });
+            }
+        });
+
+        findViewById(R.id.activity_main_btn_async_int).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Observable<Integer> intg=source.getInt();
+                intg.subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Integer>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(@NonNull Integer integer) {
+                                Toast.makeText(MainActivity.this, "adfaf"+integer, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            }
+        });
+
     }
 }

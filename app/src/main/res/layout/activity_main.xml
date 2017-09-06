@@ -4,19 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.cub01.myapplication.MainActivity">
 
+
     <Button
-        android:id="@+id/activity_main_btn"
+        android:id="@+id/activity_main_btn_async_even"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Async" />
+        android:text="Async_Even" />
+
+    <Button
+        android:id="@+id/activity_main_btn_async_odd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Async_Odd" />
 
     <Button
         android:id="@+id/activity_main_btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sync" />
+
+    <Button
+        android:id="@+id/activity_main_btn_async_int"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Async_Integer" />
+
+    <Button
+        android:id="@+id/activity_main_btn_async_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Async_Strings" />
 
     <ProgressBar
         android:layout_width="100dp"

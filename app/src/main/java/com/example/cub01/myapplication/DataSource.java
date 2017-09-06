@@ -1,14 +1,17 @@
 package com.example.cub01.myapplication;
 
 
+import android.renderscript.ScriptGroup;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.Future;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.internal.observers.FutureObserver;
 
 /**
  * Created by cub01 on 9/6/2017.
@@ -37,6 +40,30 @@ public class DataSource {
                 //e.onError(new IOException());
                 e.onNext(4);
                 e.onNext(5);
+                e.onComplete();
+            }
+        });
+    }
+
+    public Observable<String> getStrings(){
+        return Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+                e.onNext("Ganesh");
+                e.onNext("Mukul");
+                e.onNext("Aman");
+                e.onNext("Harsh");
+                e.onNext("Monika");
+                e.onComplete();
+            }
+        });
+    }
+
+    public Observable<Integer> getInt(){
+        return Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Integer> e) throws Exception {
+                e.onNext(234);
                 e.onComplete();
             }
         });
